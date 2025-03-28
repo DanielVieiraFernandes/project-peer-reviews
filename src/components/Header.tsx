@@ -1,60 +1,47 @@
 
 import { Button } from "@/components/ui/button";
-import { MessageSquare, Code, Users } from "lucide-react";
-import { cn } from "@/lib/utils";
-import { useState, useEffect } from "react";
+import { Link, useLocation } from "react-router-dom";
 
 const Header = () => {
-  const [scrolled, setScrolled] = useState(false);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      const isScrolled = window.scrollY > 10;
-      if (isScrolled !== scrolled) {
-        setScrolled(isScrolled);
-      }
-    };
-
-    window.addEventListener("scroll", handleScroll);
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, [scrolled]);
-
+  const location = useLocation();
+  
   return (
-    <header
-      className={cn(
-        "fixed top-0 w-full z-50 transition-all duration-300",
-        scrolled 
-          ? "bg-background/95 backdrop-blur-sm border-b border-border shadow-md py-3" 
-          : "bg-transparent py-5"
-      )}
-    >
-      <div className="container flex items-center justify-between">
-        <a href="#" className="flex items-center gap-2">
-          <MessageSquare className="h-6 w-6 text-primary" />
-          <span className="font-bold text-xl">FeedBacker</span>
-        </a>
+    <header className="bg-background/80 backdrop-blur-sm sticky top-0 z-50 border-b border-border/40">
+      <div className="container flex items-center justify-between h-16 px-4">
+        <Link to="/" className="text-xl font-bold text-primary">
+          FeedBacker
+        </Link>
         
-        <nav className="hidden md:flex items-center gap-8">
-          <a href="#how-it-works" className="text-foreground/80 hover:text-primary transition-colors">
-            Como Funciona
-          </a>
-          <a href="#projects" className="text-foreground/80 hover:text-primary transition-colors">
+        <nav className="hidden md:flex items-center space-x-6">
+          <Link 
+            to="/" 
+            className={`text-sm transition-colors hover:text-primary ${
+              location.pathname === '/' ? 'text-primary font-medium' : 'text-foreground/70'
+            }`}
+          >
+            Início
+          </Link>
+          <Link 
+            to="/projects" 
+            className={`text-sm transition-colors hover:text-primary ${
+              location.pathname === '/projects' ? 'text-primary font-medium' : 'text-foreground/70'
+            }`}
+          >
             Projetos
-          </a>
-          <a href="#benefits" className="text-foreground/80 hover:text-primary transition-colors">
+          </Link>
+          <a href="#benefits" className="text-sm text-foreground/70 transition-colors hover:text-primary">
             Benefícios
+          </a>
+          <a href="#contact" className="text-sm text-foreground/70 transition-colors hover:text-primary">
+            Contato
           </a>
         </nav>
         
-        <div className="flex items-center gap-3">
-          <Button variant="ghost" className="hidden md:flex">
+        <div className="flex items-center space-x-2">
+          <Button variant="ghost" size="sm" className="hidden md:flex">
             Entrar
           </Button>
-          <Button>
-            Cadastrar
-          </Button>
+          <Button>Cadastrar</Button>
         </div>
       </div>
     </header>
